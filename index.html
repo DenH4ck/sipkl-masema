@@ -50,8 +50,8 @@
                 <div class="w-16 h-16 sm:w-20 sm:h-20 bg-indigo-600 rounded-2xl flex items-center justify-center mb-5 sm:mb-6 shadow-xl shadow-indigo-200">
                     <i data-feather="book-open" class="text-white w-8 h-8 sm:w-10 sm:h-10"></i>
                 </div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-slate-800 text-center">SIPKL Terpadu</h1>
-                <p class="text-sm sm:text-base font-semibold text-indigo-600 mt-1 text-center">SMK Ma'arif Semanu</p>
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-800 text-center">SMK Ma'arif Semanu</h1>
+                <p class="text-sm sm:text-base font-semibold text-indigo-600 mt-1 text-center">SIPKL Terpadu</p>
                 <p class="text-sm sm:text-base text-slate-500 mt-1 text-center">Sistem Informasi Praktik Kerja Lapangan</p>
             </div>
             
@@ -537,9 +537,9 @@
         // --- 2. GLOBAL MOCK DATA ---
         const mockUsers = [
             { username: 'admin', password: 'password', role: 'Admin', name: 'Administrator' },
-            { username: 'kepsek', password: 'password', role: 'Kepala Sekolah', name: 'Yani Rismawati, S.Pd. Si.' },
-            { username: 'guru', password: 'password', role: 'Guru Pembimbing', name: 'Brian Age Saputro, S.Kom.' },
-            { username: 'wali', password: 'password', role: 'Wali Kelas', name: 'Dwi Widianto, A.Md. T.', availableRoles: ['Wali Kelas', 'Guru Pembimbing'] },
+            { username: 'kepsek', password: 'password', role: 'Kepala Sekolah', name: 'Bpk. Budi Utama, M.Pd' },
+            { username: 'guru', password: 'password', role: 'Guru Pembimbing', name: 'Ibu Ratna Sari, S.Kom' },
+            { username: 'wali', password: 'password', role: 'Wali Kelas', name: 'Bpk. Ahmad Dahlan, S.T', availableRoles: ['Wali Kelas', 'Guru Pembimbing'] },
             { username: 'siswa', password: 'password', role: 'Siswa', name: 'Alex Cimantoro', nis: '102938' },
         ];
 
@@ -580,12 +580,12 @@
         }];
 
         let globalDbJadwalMonitoring = [
-            { id: 1, dudi: 'PT. Teknologi Jaya', tanggal: '2026-10-04', guru: 'Brian Age Saputro, S.Kom.', agenda: 'Monitoring Serentak Tahap 1', status: 'Belum', catatan: '' },
-            { id: 2, dudi: 'CV. Maju Mundur', tanggal: '2026-10-04', guru: 'Brian Age Saputro, S.Kom.', agenda: 'Monitoring Serentak Tahap 1', status: 'Belum', catatan: '' },
-            { id: 3, dudi: 'Telkom Indonesia', tanggal: '2026-10-04', guru: 'Dwi Widianto, A.Md. T.', agenda: 'Monitoring Serentak Tahap 1', status: 'Belum', catatan: '' }
+            { id: 1, dudi: 'PT. Teknologi Jaya', tanggal: '2026-10-04', guru: 'Ibu Ratna Sari, S.Kom', agenda: 'Monitoring Serentak Tahap 1', status: 'Belum', catatan: '' },
+            { id: 2, dudi: 'CV. Maju Mundur', tanggal: '2026-10-04', guru: 'Ibu Ratna Sari, S.Kom', agenda: 'Monitoring Serentak Tahap 1', status: 'Belum', catatan: '' },
+            { id: 3, dudi: 'Telkom Indonesia', tanggal: '2026-10-04', guru: 'Bpk. Ahmad Dahlan, S.T', agenda: 'Monitoring Serentak Tahap 1', status: 'Belum', catatan: '' }
         ];
 
-        let globalDbDokumentasi = [{ id: 1, type: 'Monitoring', title: 'Kunjungan Awal Telkom', uploader: 'Dwi Widianto, A.Md. T.', tanggal: '2026-09-15', catatan: 'Penerimaan siswa berjalan lancar.', img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&auto=format&fit=crop&q=60' }];
+        let globalDbDokumentasi = [{ id: 1, type: 'Monitoring', title: 'Kunjungan Awal Telkom', uploader: 'Bpk. Ahmad Dahlan, S.T', tanggal: '2026-09-15', catatan: 'Penerimaan siswa berjalan lancar.', img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&auto=format&fit=crop&q=60' }];
 
         const laporanStructure = [
             { id: 'pengantar', title: 'Kata Pengantar', icon: 'message-circle', fields: [ {id: 'kata_pengantar', label: 'Teks Kata Pengantar', type: 'textarea'} ] },
@@ -1292,284 +1292,121 @@
             window.show(window.$('modal-action'));
         };
 
-        window.cetakLaporanFinal = function(nis) {
-            let lap = mockDbLaporan.find(l => l.nis === nis);
-            if (!lap || !lap.konten) { window.showAlertMsg('Gagal', 'Laporan ini masih kosong. Siswa belum mengisi data laporan.'); return; }
-            
-            window.showAlertMsg('Memproses PDF', 'Sistem sedang men-generate laporan akhir. Mohon tunggu...');
-            
-            setTimeout(() => {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
-
-                // Margin Jilid: Kiri 4cm(40mm), Atas 3cm(30mm), Kanan 3cm(30mm), Bawah 3cm(30mm)
-                const marginL = 40; const marginT = 30; const marginR = 30; const marginB = 30;
-                const pageWidth = 210; const pageHeight = 297;
-                const maxW = pageWidth - marginL - marginR;
-                const center = marginL + (maxW / 2);
-                let currentY = marginT;
-                
-                const addPage = () => { doc.addPage(); currentY = marginT; };
-                const checkPageBreak = (neededSpace) => { if (currentY + neededSpace > pageHeight - marginB) { addPage(); return true; } return false; };
-                const printText = (text, x, y, options = {}) => { doc.text(text, x, y, options); };
-                const printParagraph = (text, yStart, fontStyle='normal', align='justify') => {
-                    if(!text) return yStart;
-                    doc.setFont('times', fontStyle);
-                    const lines = doc.splitTextToSize(text, maxW);
-                    let y = yStart;
-                    lines.forEach(line => {
-                        checkPageBreak(7);
-                        printText(line, marginL, y, { align: align, maxWidth: maxW });
-                        y += 6;
-                    });
-                    return y;
-                };
-
-                const s = globalDbSiswa.find(x => x.nis === nis) || {};
-                const namaSiswa = (s.nama || "NAMA SISWA").toUpperCase(); const nisSiswa = s.nis || "NIS";
-                const dudi = (s.dudi || "NAMA INSTANSI").toUpperCase(); const jurusan = (s.jurusan || "KOMPETENSI KEAHLIAN").toUpperCase();
-                const guru = s.guru || "Guru Pembimbing"; const instruktur = s.instruktur || "Instruktur DUDI";
-
-                // --- 1. COVER ---
-                doc.setFont('times', 'bold'); doc.setFontSize(14);
-                printText('LAPORAN PRAKTIK KERJA LAPANGAN (PKL)', center, currentY, { align: 'center' }); currentY += 8;
-                printText(`DI ${dudi}`, center, currentY, { align: 'center' }); currentY += 20;
-                
-                doc.setFont('times', 'normal'); doc.setFontSize(12);
-                printText('Diajukan sebagai salah satu syarat untuk mengikuti', center, currentY, { align: 'center' }); currentY += 6;
-                printText('Ujian Kompetensi Keahlian dan Ujian Sekolah', center, currentY, { align: 'center' }); currentY += 30;
-
-                doc.setDrawColor(0); doc.rect(center - 15, currentY, 30, 30); doc.setFontSize(10);
-                printText('( LOGO )', center, currentY + 16, { align: 'center' }); currentY += 50;
-
-                doc.setFontSize(12); printText('Disusun Oleh:', center, currentY, { align: 'center' }); currentY += 10;
-                doc.setFont('times', 'bold');
-                printText(namaSiswa, center, currentY, { align: 'center' }); currentY += 6;
-                printText(`NIS. ${nisSiswa}`, center, currentY, { align: 'center' }); 
-
-                doc.setFontSize(14);
-                printText('PEMERINTAH DAERAH DAERAH ISTIMEWA YOGYAKARTA', center, pageHeight - 45, { align: 'center' });
-                printText('DINAS PENDIDIKAN PEMUDA DAN OLAHRAGA', center, pageHeight - 39, { align: 'center' });
-                doc.setFontSize(16);
-                printText('SMK Ma'arif Semanu', center, pageHeight - 31, { align: 'center' });
-                doc.setFont('times', 'normal'); doc.setFontSize(11);
-                printText('Program Keahlian: ' + jurusan, center, pageHeight - 24, { align: 'center' });
-                doc.setFont('times', 'bold'); doc.setFontSize(12);
-                printText('TAHUN ' + new Date().getFullYear(), center, pageHeight - 12, { align: 'center' });
-
-                // --- 2. LEMBAR PERSETUJUAN & PENGESAHAN ---
-                addPage();
-                doc.setFontSize(14);
-                printText('LEMBAR PENGESAHAN', center, currentY, { align: 'center' }); currentY += 15;
-                doc.setFont('times', 'normal'); doc.setFontSize(12);
-                currentY = printParagraph(`Laporan Praktik Kerja Lapangan (PKL) yang disusun oleh ${s.nama} (NIS: ${s.nis}) telah diperiksa dan disetujui pada:`, currentY);
-                currentY += 5;
-                printText('Hari       : .......................................', marginL, currentY); currentY += 8;
-                printText('Tanggal : .......................................', marginL, currentY); currentY += 25;
-
-                printText('Pembimbing DUDI,', marginL, currentY);
-                printText('Guru Pembimbing,', pageWidth - marginR, currentY, {align: 'right'}); currentY += 25;
-                
-                doc.setFont('times', 'bold');
-                printText(instruktur, marginL, currentY);
-                printText(guru, pageWidth - marginR, currentY, {align: 'right'});
-                doc.setFont('times', 'normal'); currentY += 6;
-                printText('NIK. ..........................', marginL, currentY);
-                printText('NIP. ..........................', pageWidth - marginR, currentY, {align: 'right'}); currentY += 20;
-
-                printText('Mengetahui,', center, currentY, { align: 'center' }); currentY += 6;
-                doc.setFont('times', 'bold');
-                printText('Kepala SMK Ma'arif Semanu', center, currentY, { align: 'center' }); currentY += 30;
-                printText('Yani Rismawati, S.Pd. Si.', center, currentY, { align: 'center' }); currentY += 6;
-                doc.setFont('times', 'normal');
-                printText('NIP. 19800101 200501 1 001', center, currentY, { align: 'center' });
-
-                // --- 3. KATA PENGANTAR ---
-                addPage();
-                doc.setFont('times', 'bold'); doc.setFontSize(14);
-                printText('KATA PENGANTAR', center, currentY, { align: 'center' }); currentY += 15;
-                doc.setFontSize(12);
-                currentY = printParagraph(lap.konten.kata_pengantar, currentY, 'normal', 'justify');
-
-                // --- 4. DAFTAR ISI SESUAI GAMBAR ---
-                addPage();
-                doc.setFont('times', 'bold'); doc.setFontSize(14);
-                printText('DAFTAR ISI', center, currentY, { align: 'center' }); currentY += 15;
-                doc.setFont('times', 'normal'); doc.setFontSize(12);
-                
-                const toc = [
-                    {t: 'HALAMAN JUDUL', i: 0, p:'i'}, {t: 'LEMBAR PERSETUJUAN', i: 0, p:'ii'}, {t: 'LEMBAR PENGESAHAN', i: 0, p:'iii'}, 
-                    {t: 'KATA PENGANTAR', i: 0, p:'iv'}, {t: 'DAFTAR ISI', i: 0, p:'v'},
-                    {t: 'BAB I PENDAHULUAN', i: 0, p:'1'},
-                    {t: 'A. Latar Belakang Praktik Kerja Lapangan', i: 10, p:'1'}, {t: 'B. Tujuan Praktik Kerja Lapangan', i: 10, p:'2'}, {t: 'C. Manfaat Praktik Kerja Lapangan', i: 10, p:'2'},
-                    {t: 'BAB II URAIAN UMUM DUDI', i: 0, p:'3'},
-                    {t: 'A. Sejarah DUDI', i: 10, p:'3'}, {t: 'B. Struktur Organisasi DUDI', i: 10, p:'4'}, {t: 'C. Lokasi DUDI', i: 10, p:'5'}, {t: 'D. Produk/Pelayanan DUDI', i: 10, p:'5'},
-                    {t: 'BAB III PEMBAHASAN', i: 0, p:'6'},
-                    {t: 'A. Dasar Teori', i: 10, p:'6'}, {t: 'B. Implementasi Dasar Teori Di DUDI', i: 10, p:'7'},
-                    {t: 'BAB IV PENUTUP', i: 0, p:'10'},
-                    {t: 'A. Kesimpulan', i: 10, p:'10'}, {t: 'B. Saran', i: 10, p:'11'},
-                    {t: 'DAFTAR PUSTAKA', i: 0, p:'12'}, {t: 'LAMPIRAN', i: 0, p:'13'}
-                ];
-
-                toc.forEach(item => {
-                    checkPageBreak(10);
-                    printText(item.t, marginL + item.i, currentY);
-                    let dotX = marginL + item.i + doc.getTextWidth(item.t) + 3;
-                    let endX = pageWidth - marginR - 10;
-                    if(dotX < endX) { doc.setTextColor(150); printText('.'.repeat(Math.floor((endX - dotX)/1.5)), dotX, currentY); doc.setTextColor(0); }
-                    printText(item.p, pageWidth - marginR, currentY, {align: 'right'});
-                    currentY += 8;
-                });
-
-                // --- 5. ISI BAB (I, II, III, IV) & Pustaka ---
-                const babList = [
-                    { t1: 'BAB I', t2: 'PENDAHULUAN', subs: [{l: 'A. Latar Belakang Praktik Kerja Lapangan', id: 'bab1_a'}, {l: 'B. Tujuan Praktik Kerja Lapangan', id: 'bab1_b'}, {l: 'C. Manfaat Praktik Kerja Lapangan', id: 'bab1_c'}] },
-                    { t1: 'BAB II', t2: 'URAIAN UMUM DUDI', subs: [{l: 'A. Sejarah DUDI', id: 'bab2_a'}, {l: 'B. Struktur Organisasi DUDI', id: 'bab2_b'}, {l: 'C. Lokasi DUDI', id: 'bab2_c'}, {l: 'D. Produk/Pelayanan DUDI', id: 'bab2_d'}] },
-                    { t1: 'BAB III', t2: 'PEMBAHASAN', subs: [{l: 'A. Dasar Teori', id: 'bab3_a'}, {l: 'B. Implementasi Dasar Teori Di DUDI', id: 'bab3_b'}] },
-                    { t1: 'BAB IV', t2: 'PENUTUP', subs: [{l: 'A. Kesimpulan', id: 'bab4_a'}, {l: 'B. Saran', id: 'bab4_b'}] }
-                ];
-
-                babList.forEach(bab => {
-                    addPage();
-                    doc.setFont('times', 'bold'); doc.setFontSize(14);
-                    printText(bab.t1, center, currentY, { align: 'center' }); currentY += 8;
-                    printText(bab.t2, center, currentY, { align: 'center' }); currentY += 15;
-                    
-                    doc.setFontSize(12);
-                    bab.subs.forEach(sub => {
-                        doc.setFont('times', 'bold');
-                        printText(sub.l, marginL, currentY); currentY += 8;
-                        currentY = printParagraph(lap.konten[sub.id] || '-', currentY, 'normal', 'justify'); currentY += 8;
-                    });
-                });
-
-                // Pustaka
-                addPage();
-                doc.setFont('times', 'bold'); doc.setFontSize(14);
-                printText('DAFTAR PUSTAKA', center, currentY, { align: 'center' }); currentY += 15;
-                doc.setFontSize(12);
-                currentY = printParagraph(lap.konten.pustaka || '-', currentY);
-
-                // --- 6. LAMPIRAN (Auto Generate Tabel Jurnal) ---
-                addPage();
-                doc.setFont('times', 'bold'); doc.setFontSize(14);
-                printText('LAMPIRAN', center, currentY, { align: 'center' }); currentY += 15;
-                
-                doc.setFontSize(12);
-                printText('Lampiran 1: Rekapitulasi Jurnal Harian Peserta', marginL, currentY); currentY += 10;
-
-                const myJurnal = mockDbJurnal.filter(j => j.nis === nis).sort((a,b)=>a.id - b.id);
-                let tableData = myJurnal.map((j, i) => [i+1, j.tanggal, j.kegiatan, j.catatan||'-']);
-                if(tableData.length === 0) tableData = [['-', '-', 'Belum ada data jurnal yang dientri', '-']];
-
-                doc.autoTable({
-                    startY: currentY,
-                    head: [['No', 'Tanggal', 'Uraian Kegiatan / Pekerjaan', 'Catatan Pembimbing']],
-                    body: tableData,
-                    theme: 'grid',
-                    margin: { left: marginL, right: marginR },
-                    styles: { font: 'times', fontSize: 10, cellPadding: 3, textColor: 0, lineColor: 0, lineWidth: 0.1 },
-                    headStyles: { fillColor: 240, textColor: 0, fontStyle: 'bold', halign: 'center' },
-                    columnStyles: { 0: {halign: 'center', cellWidth: 10}, 1: {cellWidth: 25} }
-                });
-
-                window.closeAlertModal();
-                doc.save(`Laporan_PKL_${nisSiswa}_${s.nama.replace(/\s+/g, '_')}.pdf`);
-
-            }, 1500); 
-        };
-
-        // --- 10. MODULE: JADWAL & DOKUMENTASI ---
-        window.renderJadwal = function() {
-            if(currentUser.role==='Admin') { window.show(window.$('btn-add-jadwal')); window.show(window.$('btn-add-serentak')); window.show(document.querySelector('#sec-jadwal_monitoring .guru-col')); document.querySelectorAll('.aksi-col').forEach(window.show); }
-            else if(currentUser.role==='Guru Pembimbing') { window.hide(window.$('btn-add-jadwal')); window.hide(window.$('btn-add-serentak')); window.hide(document.querySelector('#sec-jadwal_monitoring .guru-col')); document.querySelectorAll('.aksi-col').forEach(window.show); }
-            else { window.hide(window.$('btn-add-jadwal')); window.hide(window.$('btn-add-serentak')); window.show(document.querySelector('#sec-jadwal_monitoring .guru-col')); document.querySelectorAll('.aksi-col').forEach(window.hide); }
-
-            let arr = globalDbJadwalMonitoring;
-            if(currentUser.role==='Guru Pembimbing') arr = arr.filter(j=>j.guru === currentUser.name);
-
-            if(window.$('tbody-jadwal')) {
-                window.$('tbody-jadwal').innerHTML = arr.map((j,i) => `<tr class="hover:bg-slate-50 border-b"><td class="px-4 py-3 text-center">${i+1}</td><td class="px-4 py-3"><p class="font-bold">${j.tanggal}</p><p class="text-xs text-slate-500">${j.dudi}</p></td>${currentUser.role!=='Guru Pembimbing' ? `<td class="px-4 py-3 text-sm">${j.guru}</td>` : ''}<td class="px-4 py-3 text-sm">${j.agenda}</td><td class="px-4 py-3 text-xs italic">${j.catatan || '-'}</td><td class="px-4 py-3 text-center"><span class="text-[11px] px-2.5 py-1 rounded-full border font-semibold ${j.status==='Selesai'?'bg-emerald-100 text-emerald-700':'bg-amber-100 text-amber-700'}">${j.status}</span></td>${(currentUser.role==='Admin' || currentUser.role==='Guru Pembimbing') ? `<td class="px-4 py-3 text-center flex justify-center gap-1.5">${currentUser.role==='Admin' ? `<button onclick="window.editJadwal(${j.id})" class="p-1.5 text-indigo-600 hover:bg-indigo-100 rounded-md"><i data-feather="edit" class="w-4 h-4"></i></button><button onclick="window.delJadwal(${j.id})" class="p-1.5 text-red-600 hover:bg-red-100 rounded-md"><i data-feather="trash-2" class="w-4 h-4"></i></button>` : (j.status==='Belum' ? `<button onclick="window.uploadBuktiJadwal(${j.id})" class="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded-md whitespace-nowrap">Upload</button>` : `<i data-feather="check-circle" class="w-5 h-5 text-emerald-500"></i>`)}</td>` : ''}</tr>`).join('') || '<tr><td colspan="7" class="text-center py-6">Belum ada jadwal.</td></tr>';
+        // ==========================================
+        // FITUR CHATBOT AI MENGGUNAKAN GEMINI
+        // ==========================================
+        window.toggleApiKeyVisibility = function() {
+            const inp = window.$('input-api-key');
+            if(inp) {
+                if(inp.type === 'password') { inp.type = 'text'; window.$('icon-eye-api').outerHTML = '<i data-feather="eye-off" id="icon-eye-api" class="w-4 h-4"></i>'; } 
+                else { inp.type = 'password'; window.$('icon-eye-api').outerHTML = '<i data-feather="eye" id="icon-eye-api" class="w-4 h-4"></i>'; } 
+                if (typeof feather !== 'undefined') feather.replace(); 
             }
-            if (typeof feather !== 'undefined') feather.replace();
-        };
-
-        window.editJadwal = function(id) {
-            const j = globalDbJadwalMonitoring.find(x=>x.id===id);
-            if(window.$('modal-form-title')) window.$('modal-form-title').innerHTML = '<i data-feather="edit" class="w-5 h-5 text-indigo-500"></i> Edit Jadwal';
-            if(window.$('modal-form-type')) window.$('modal-form-type').value = 'edit_jadwal'; if(window.$('modal-form-id')) window.$('modal-form-id').value = id;
-            if(window.$('modal-form-body')) window.$('modal-form-body').innerHTML = `<div><label class="block text-xs font-medium mb-1">DUDI</label><input type="text" id="j-dudi" value="${j.dudi}" required class="w-full px-3 py-2 border rounded outline-none"></div><div><label class="block text-xs font-medium mb-1">Tanggal</label><input type="date" id="j-tgl" value="${j.tanggal}" required class="w-full px-3 py-2 border rounded outline-none"></div><div><label class="block text-xs font-medium mb-1">Guru</label><input type="text" id="j-guru" value="${j.guru}" required class="w-full px-3 py-2 border rounded outline-none"></div><div><label class="block text-xs font-medium mb-1">Agenda</label><input type="text" id="j-agenda" value="${j.agenda}" required class="w-full px-3 py-2 border rounded outline-none"></div>`;
-            const footer = window.$('generic-form')?.querySelector('.border-t'); if(footer) footer.classList.remove('hide'); window.show(window.$('modal-form')); if (typeof feather !== 'undefined') feather.replace();
-        };
-        
-        window.delJadwal = function(id) { window.showConfirm('Hapus Jadwal?', 'Tindakan permanen.', () => { globalDbJadwalMonitoring = globalDbJadwalMonitoring.filter(x=>x.id!==id); window.renderJadwal(); }); };
-        
-        window.uploadBuktiJadwal = function(id) {
-            if(window.$('modal-form-title')) window.$('modal-form-title').innerHTML = '<i data-feather="camera" class="w-5 h-5 text-indigo-500"></i> Upload Bukti';
-            if(window.$('modal-form-type')) window.$('modal-form-type').value = 'upload_jadwal'; if(window.$('modal-form-id')) window.$('modal-form-id').value = id;
-            if(window.$('modal-form-body')) window.$('modal-form-body').innerHTML = `<div><label class="block text-sm font-medium mb-1">Upload Foto</label><input type="file" required class="w-full px-3 py-2 border rounded-lg text-sm bg-slate-50"></div><div><label class="block text-sm font-medium mb-1 mt-3">Catatan Lapangan</label><textarea id="j-catatan-bukti" rows="3" class="w-full px-3 py-2 border rounded-lg text-sm" required></textarea></div>`;
-            const footer = window.$('generic-form')?.querySelector('.border-t'); if(footer) footer.classList.remove('hide'); window.show(window.$('modal-form')); if (typeof feather !== 'undefined') feather.replace();
-        };
-
-        window.renderDokumentasi = function() {
-            const grid = window.$('grid-dokumentasi');
-            const search = window.$('search-dok') ? window.$('search-dok').value.toLowerCase() : '';
-            const filter = window.$('filter-dok') ? window.$('filter-dok').value : '';
-            
-            const filteredData = globalDbDokumentasi.filter(d => {
-                return (`${d.title} ${d.uploader} ${d.catatan}`.toLowerCase().includes(search) && (filter === '' || d.type === filter));
-            });
-            
-            if(grid) {
-                grid.innerHTML = filteredData.map(d => `<div onclick="window.viewDetailDokumentasi(${d.id})" class="bg-white rounded-xl border shadow-sm overflow-hidden flex flex-col group cursor-pointer hover:border-indigo-300"><div class="relative h-32 sm:h-40 overflow-hidden bg-slate-100"><img src="${d.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform"><div class="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0"></div></div><div class="p-3 border-t bg-slate-50"><p class="text-xs font-bold line-clamp-1">${d.title}</p><p class="text-[10px] font-medium text-slate-500 mt-0.5"><i data-feather="calendar" class="w-3 h-3 inline"></i> ${window.getFormattedDate(d.tanggal)}</p></div></div>`).join('') || `<div class="col-span-full py-12 text-center text-slate-500"><i data-feather="image" class="w-10 h-10 mx-auto mb-3 opacity-20"></i><p>Dokumentasi kosong.</p></div>`;
-            }
-            if (typeof feather !== 'undefined') feather.replace();
-        };
-
-        window.viewDetailDokumentasi = function(id) {
-            const d = globalDbDokumentasi.find(x => x.id === id);
-            if(d) {
-                if(window.$('dok-detail-img')) window.$('dok-detail-img').src = d.img;
-                if(window.$('dok-detail-type')) window.$('dok-detail-type').textContent = d.type;
-                if(window.$('dok-detail-title')) window.$('dok-detail-title').textContent = d.title;
-                if(window.$('dok-detail-date')) window.$('dok-detail-date').textContent = window.getFormattedDate(d.tanggal);
-                if(window.$('dok-detail-catatan')) window.$('dok-detail-catatan').textContent = `"${d.catatan}"`;
-                if(window.$('dok-detail-uploader')) window.$('dok-detail-uploader').textContent = d.uploader;
-                window.show(window.$('modal-view-dok')); if (typeof feather !== 'undefined') feather.replace();
-            }
-        };
-
-        // --- 11. PENGATURAN ---
-        window.renderPengaturan = function() {
-            if(window.$('input-api-key')) window.$('input-api-key').value = localStorage.getItem('gemini_api_key') || '';
-            if(window.$('input-min-char')) window.$('input-min-char').value = window.getMinCharLimit();
-            
-            const roles = ['Admin', 'Kepala Sekolah', 'Guru Pembimbing', 'Wali Kelas', 'Siswa'];
-            if(window.$('thead-rbac')) window.$('thead-rbac').innerHTML = `<tr><th class="px-6 py-4 font-semibold w-48 sticky left-0 bg-white">Modul / Menu</th>${roles.map(r=>`<th class="px-4 py-4 font-semibold text-center">${r}</th>`).join('')}</tr>`;
-            if(window.$('tbody-rbac')) window.$('tbody-rbac').innerHTML = roleAccess.map(m => `<tr class="border-b hover:bg-slate-50"><td class="px-6 py-4 font-medium text-slate-700 sticky left-0 bg-white">${m.label}</td>${roles.map(r => `<td class="px-4 py-4 text-center"><input type="checkbox" onchange="window.toggleRbac('${m.menuId}', '${r}', this.checked)" ${m.access.includes(r)?'checked':''} ${r==='Admin'&&m.menuId==='pengaturan'?'disabled':''} class="w-4 h-4 text-indigo-600 rounded"></td>`).join('')}</tr>`).join('');
-        };
-        window.toggleRbac = function(menuId, role, isChecked) {
-            const menu = roleAccess.find(m => m.menuId === menuId);
-            if(menu) {
-                if(isChecked && !menu.access.includes(role)) menu.access.push(role);
-                else if(!isChecked) menu.access = menu.access.filter(r => r !== role);
-            }
-        };
-        window.savePengaturan = function() { window.buildSidebar(); window.showAlertMsg('Berhasil', 'Matriks Hak Akses (RBAC) berhasil disimpan.'); };
-
-        window.saveLaporanSetting = function() {
-            const val = window.$('input-min-char').value;
-            localStorage.setItem('sipkl_min_char', val);
-            window.showAlertMsg('Tersimpan', `Batas minimal laporan berhasil diatur menjadi ${val} karakter.`);
         };
 
         window.saveApiKey = function() {
             const key = window.$('input-api-key').value.trim();
             localStorage.setItem('gemini_api_key', key);
-            window.showAlertMsg('Tersimpan', 'API Key Google Gemini berhasil disimpan ke memori lokal.');
+            window.showAlertMsg('Tersimpan', 'Konfigurasi kunci Google Gemini API berhasil disimpan ke penyimpanan lokal Anda.');
         };
 
-        // --- EVENT BINDINGS (Sistem Pengaman / Null Checker) ---
+        window.toggleAIChat = function() {
+            const chatWin = window.$('ai-chat-window');
+            if (chatWin) {
+                chatWin.classList.toggle('hide');
+                if(!chatWin.classList.contains('hide')) {
+                    const msgContainer = window.$('ai-chat-messages');
+                    if(msgContainer) msgContainer.scrollTop = msgContainer.scrollHeight;
+                }
+            }
+        };
+
+        window.resetChatUI = function() {
+            const msgContainer = window.$('ai-chat-messages');
+            if(msgContainer && currentUser) {
+                const sessionKey = `${currentUser.username}_${currentUser.role}`;
+                if(globalChatHistories[sessionKey] && globalChatHistories[sessionKey].length > 0) {
+                    msgContainer.innerHTML = globalChatHistories[sessionKey].map(msg => {
+                        if(msg.role === 'user') {
+                            return `<div class="flex gap-2 justify-end mb-4"><div class="bg-indigo-600 text-white p-3 rounded-2xl rounded-tr-none shadow-sm text-sm max-w-[85%]">${msg.parts[0].text}</div></div>`;
+                        } else {
+                            const formatted = msg.parts[0].text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+                            return `<div class="flex gap-2 mb-4"><div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center shrink-0 border border-indigo-200"><i data-feather="cpu" class="w-4 h-4 text-indigo-600"></i></div><div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 text-slate-700 text-sm max-w-[85%] leading-relaxed">${formatted}</div></div>`;
+                        }
+                    }).join('');
+                } else {
+                    msgContainer.innerHTML = `<div class="flex gap-2 mb-4"><div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center shrink-0 border border-indigo-200"><i data-feather="cpu" class="w-4 h-4 text-indigo-600"></i></div><div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 text-slate-700 text-sm">Halo ${currentUser.name}! Saya asisten AI. Anda terdeteksi masuk sebagai <b>${currentUser.role}</b>. Ada yang bisa saya bantu?</div></div>`;
+                }
+                if (typeof feather !== 'undefined') feather.replace();
+            }
+        };
+
+        window.sendAIMessage = async function() {
+            const inputEl = window.$('ai-chat-input');
+            const msgContainer = window.$('ai-chat-messages');
+            if (!inputEl || !msgContainer) return;
+
+            const userText = inputEl.value.trim();
+            if (!userText) return;
+
+            const sessionKey = `${currentUser.username}_${currentUser.role}`;
+            if(!globalChatHistories[sessionKey]) globalChatHistories[sessionKey] = [];
+
+            // Tambahkan pesan user ke UI
+            msgContainer.innerHTML += `<div class="flex gap-2 justify-end fade-in mb-4"><div class="bg-indigo-600 text-white p-3 rounded-2xl rounded-tr-none shadow-sm text-sm max-w-[85%]">${userText}</div></div>`;
+            inputEl.value = ''; msgContainer.scrollTop = msgContainer.scrollHeight;
+            
+            // Simpan ke riwayat
+            globalChatHistories[sessionKey].push({ role: "user", parts: [{ text: userText }] });
+
+            // Indikator 'Berpikir'
+            const typingId = 'typing-' + Date.now();
+            msgContainer.innerHTML += `<div id="${typingId}" class="flex gap-2 fade-in mb-4"><div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center shrink-0 border border-indigo-200"><i data-feather="cpu" class="w-4 h-4 text-indigo-600"></i></div><div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 text-slate-500 text-sm italic">Berpikir...</div></div>`;
+            if (typeof feather !== 'undefined') feather.replace(); msgContainer.scrollTop = msgContainer.scrollHeight;
+
+            const apiKey = localStorage.getItem('gemini_api_key');
+
+            if(!apiKey) {
+                setTimeout(() => {
+                    const typingEl = window.$(typingId); if (typingEl) typingEl.remove();
+                    const aiReply = "Maaf, API Key Gemini belum Anda konfigurasi. Minta Admin untuk mengisinya di Pengaturan Sistem.";
+                    msgContainer.innerHTML += `<div class="flex gap-2 fade-in mb-4"><div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0 border border-red-200"><i data-feather="alert-circle" class="w-4 h-4 text-red-600"></i></div><div class="bg-red-50 p-3 rounded-2xl rounded-tl-none shadow-sm border border-red-200 text-red-700 text-sm max-w-[85%]">${aiReply}</div></div>`;
+                    globalChatHistories[sessionKey].push({ role: "model", parts: [{ text: aiReply }] });
+                    if (typeof feather !== 'undefined') feather.replace(); msgContainer.scrollTop = msgContainer.scrollHeight;
+                }, 1000);
+                return;
+            }
+
+            try {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+                const contextInst = `Anda adalah SIPKL Assistant di SMK N 1 Semanu. User saat ini bernama ${currentUser.name} dengan role ${currentUser.role}. Jawablah secara ramah, profesional, dan padat. Jika pengguna menanyakan seputar aplikasi, berikan panduan yang masuk akal.`;
+
+                const payload = {
+                    contents: globalChatHistories[sessionKey],
+                    systemInstruction: { parts: [{ text: contextInst }] }
+                };
+
+                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const result = await response.json();
+                
+                const typingEl = window.$(typingId); if (typingEl) typingEl.remove();
+
+                if (result.candidates && result.candidates.length > 0) {
+                    const aiText = result.candidates[0].content.parts[0].text;
+                    globalChatHistories[sessionKey].push({ role: "model", parts: [{ text: aiText }] });
+                    
+                    const formattedText = aiText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+                    msgContainer.innerHTML += `<div class="flex gap-2 fade-in mb-4"><div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center shrink-0 border border-indigo-200"><i data-feather="cpu" class="w-4 h-4 text-indigo-600"></i></div><div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 text-slate-700 text-sm max-w-[85%] leading-relaxed">${formattedText}</div></div>`;
+                } else {
+                     msgContainer.innerHTML += `<div class="flex gap-2 fade-in mb-4"><div class="bg-red-50 text-red-600 p-3 rounded-2xl rounded-tl-none shadow-sm border border-red-200 text-sm">Gagal mendapatkan respons AI.</div></div>`;
+                }
+            } catch (error) {
+                const typingEl = window.$(typingId); if (typingEl) typingEl.remove();
+                msgContainer.innerHTML += `<div class="flex gap-2 fade-in mb-4"><div class="bg-red-50 text-red-600 p-3 rounded-2xl rounded-tl-none shadow-sm border border-red-200 text-sm">Koneksi ke server AI terputus. Pastikan API Key valid.</div></div>`;
+            }
+            if (typeof feather !== 'undefined') feather.replace(); msgContainer.scrollTop = msgContainer.scrollHeight;
+        };
+
         function bindEventSafe(id, event, callback) {
             const el = window.$(id); if(el) el.addEventListener(event, callback);
         }
