@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIPKL Terpadu - SMK Negeri 1 Semanu</title>
+    <title>SIPKL Terpadu - SMK Ma'arif Semanu</title>
     
     <!-- Pustaka Eksternal -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -51,7 +51,7 @@
                     <i data-feather="book-open" class="text-white w-8 h-8 sm:w-10 sm:h-10"></i>
                 </div>
                 <h1 class="text-2xl sm:text-3xl font-bold text-slate-800 text-center">SIPKL Terpadu</h1>
-                <p class="text-sm sm:text-base font-semibold text-indigo-600 mt-1 text-center">SMK Negeri 1 Semanu</p>
+                <p class="text-sm sm:text-base font-semibold text-indigo-600 mt-1 text-center">SMK Ma'arif Semanu</p>
                 <p class="text-sm sm:text-base text-slate-500 mt-1 text-center">Sistem Informasi Praktik Kerja Lapangan</p>
             </div>
             
@@ -83,7 +83,7 @@
             </form>
             <div class="mt-8 sm:mt-10 text-center border-t border-slate-100 pt-6">
                 <p class="text-xs sm:text-sm font-semibold text-slate-500">Versi 2.1.0 (Build 2026)</p>
-                <p class="text-[10px] sm:text-xs text-slate-400 mt-1.5">Akun Demo: admin, kepsek, guru, wali, siswa (Pass: password)</p>
+                <p class="text-[10px] sm:text-xs text-slate-400 mt-1.5">Support by <i>Secangkir Kopi</i></p>
             </div>
         </div>
     </div>
@@ -145,7 +145,7 @@
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div>
                                 <h2 class="text-2xl font-bold text-slate-800">Selamat Datang, <span id="dash-name">User</span></h2>
-                                <p class="text-slate-500 text-sm mt-1">Sistem Informasi PKL Terpadu - SMK Negeri 1 Semanu</p>
+                                <p class="text-slate-500 text-sm mt-1">Sistem Informasi PKL Terpadu - SMK Ma'arif Semanu</p>
                             </div>
                         </div>
 
@@ -537,29 +537,29 @@
         // --- 2. GLOBAL MOCK DATA ---
         const mockUsers = [
             { username: 'admin', password: 'password', role: 'Admin', name: 'Administrator' },
-            { username: 'kepsek', password: 'password', role: 'Kepala Sekolah', name: 'Bpk. Budi Utama, M.Pd' },
-            { username: 'guru', password: 'password', role: 'Guru Pembimbing', name: 'Ibu Ratna Sari, S.Kom' },
-            { username: 'wali', password: 'password', role: 'Wali Kelas', name: 'Bpk. Ahmad Dahlan, S.T', availableRoles: ['Wali Kelas', 'Guru Pembimbing'] },
-            { username: 'siswa', password: 'password', role: 'Siswa', name: 'Andi Saputra', nis: '102938' },
+            { username: 'kepsek', password: 'password', role: 'Kepala Sekolah', name: 'Yani Rismawati, S.Pd. Si.' },
+            { username: 'guru', password: 'password', role: 'Guru Pembimbing', name: 'Brian Age Saputro, S.Kom.' },
+            { username: 'wali', password: 'password', role: 'Wali Kelas', name: 'Dwi Widianto, A.Md. T.', availableRoles: ['Wali Kelas', 'Guru Pembimbing'] },
+            { username: 'siswa', password: 'password', role: 'Siswa', name: 'Alex Cimantoro', nis: '102938' },
         ];
 
         let globalDbSiswa = [
-            { id: 1, nis: '102938', nama: 'Andi Saputra', jurusan: 'Rekayasa Perangkat Lunak', kelas: 'XII RPL 1', noWa: '081234567890', waliKelas: 'Bpk. Ahmad Dahlan, S.T', waWalas: '08120000001', guru: 'Ibu Ratna Sari, S.Kom', waGuru: '08120000002', dudi: 'PT. Teknologi Jaya', instruktur: 'Bpk. Reza', waInstruktur: '08120000003', namaOrtu: 'Bpk. Hartono', waOrtu: '08120000004', username: 'siswa', password: 'password' },
-            { id: 2, nis: '102939', nama: 'Bina Pertiwi', jurusan: 'Rekayasa Perangkat Lunak', kelas: 'XII RPL 1', noWa: '081234567891', waliKelas: 'Bpk. Ahmad Dahlan, S.T', waWalas: '08120000001', guru: 'Ibu Ratna Sari, S.Kom', waGuru: '08120000002', dudi: 'CV. Maju Mundur', instruktur: 'Ibu Dina', waInstruktur: '08120000005', namaOrtu: 'Ibu Siti', waOrtu: '08120000006', username: 'bina', password: 'password' },
-            { id: 3, nis: '102943', nama: 'Budi Santoso', jurusan: 'Teknik Komputer & Jaringan', kelas: 'XII TKJ 2', noWa: '081234567892', waliKelas: 'Ibu Dewi Lestari, S.Pd', waWalas: '08120000007', guru: 'Bpk. Ahmad Dahlan, S.T', waGuru: '08120000001', dudi: 'Telkom Indonesia', instruktur: 'Bpk. Wahyu', waInstruktur: '08120000008', namaOrtu: 'Bpk. Slamet', waOrtu: '08120000009', username: 'budi', password: 'password' },
+            { id: 1, nis: '102938', nama: 'Alex Cimantoro', jurusan: 'Rekayasa Perangkat Lunak', kelas: 'XII DKV', noWa: '081234567890', waliKelas: 'Dwi Widianto, A.Md. T.', waWalas: '08120000001', guru: 'Brian Age Saputro, S.Kom.', waGuru: '08120000002', dudi: 'PT. Teknologi Jaya', instruktur: 'Bpk. Reza', waInstruktur: '08120000003', namaOrtu: 'Bpk. Hartono', waOrtu: '08120000004', username: 'siswa', password: 'password' },
+            { id: 2, nis: '102939', nama: 'Masema Nur Semanuwati', jurusan: 'Tata Busana', kelas: 'XII DPB', noWa: '081234567891', waliKelas: 'Mamik Dwi R., S.Pd.', waWalas: '08120000001', guru: 'Brian Age Saputro, S.Kom.', waGuru: '08120000002', dudi: 'CV. Maju Mundur', instruktur: 'Ibu Dina', waInstruktur: '08120000005', namaOrtu: 'Ibu Siti', waOrtu: '08120000006', username: 'bina', password: 'password' },
+            { id: 3, nis: '102943', nama: 'Maeli Wareng Disastro', jurusan: 'Teknik Sepeda Motor', kelas: 'XII TSM 2', noWa: '081234567892', waliKelas: 'Ibu Dewi Lestari, S.Pd', waWalas: '08120000007', guru: 'Dwi Widianto, A.Md. T.', waGuru: '08120000001', dudi: 'Telkom Indonesia', instruktur: 'Bpk. Wahyu', waInstruktur: '08120000008', namaOrtu: 'Bpk. Slamet', waOrtu: '08120000009', username: 'budi', password: 'password' },
         ];
 
         let mockDbJurnal = [
-            { id: 1, tanggal: '02 Okt 2026', nis: '102938', nama: 'Andi Saputra', kegiatan: 'Mempelajari framework UI.', status: 'Menunggu', catatan: '' },
-            { id: 2, tanggal: '01 Okt 2026', nis: '102938', nama: 'Andi Saputra', kegiatan: 'Membuat rancangan database.', status: 'Disetujui', catatan: 'Bagus, teruskan' },
-            { id: 3, tanggal: '30 Sep 2026', nis: '102939', nama: 'Bina Pertiwi', kegiatan: 'Instalasi server linux.', status: 'Disetujui', catatan: '' },
+            { id: 1, tanggal: '02 Okt 2026', nis: '102938', nama: 'Alex Cimantoro', kegiatan: 'Mempelajari framework UI.', status: 'Menunggu', catatan: '' },
+            { id: 2, tanggal: '01 Okt 2026', nis: '102938', nama: 'Alex Cimantoro', kegiatan: 'Membuat rancangan database.', status: 'Disetujui', catatan: 'Bagus, teruskan' },
+            { id: 3, tanggal: '30 Sep 2026', nis: '102939', nama: 'Masema Nur Semanuwati', kegiatan: 'Instalasi server linux.', status: 'Disetujui', catatan: '' },
         ];
 
-        let mockDbPresensi = [{ id: 1, nis: '102938', nama: 'Andi Saputra', tanggal: '01 Okt 2026', jam: '07:45 WIB', lokasi: 'Lat: -7.9839, Lng: 110.6322', status: 'Hadir' }];
+        let mockDbPresensi = [{ id: 1, nis: '102938', nama: 'Alex Cimantoro', tanggal: '01 Okt 2026', jam: '07:45 WIB', lokasi: 'Lat: -7.9839, Lng: 110.6322', status: 'Hadir' }];
         let mockDbPengajuanIzin = [];
         
         let mockDbLaporan = [{ 
-            id: 1, nis: '102938', nama: 'Andi Saputra', tanggal: '02 Okt 2026', 
+            id: 1, nis: '102938', nama: 'Alex Cimantoro', tanggal: '02 Okt 2026', 
             status: 'Proses Pengerjaan', catatan: '',
             chapterStatus: { pengantar: 'Disetujui', bab1: 'Draft', bab2: 'Terkunci', bab3: 'Terkunci', bab4: 'Terkunci', pustaka: 'Terkunci' },
             konten: {
@@ -580,12 +580,12 @@
         }];
 
         let globalDbJadwalMonitoring = [
-            { id: 1, dudi: 'PT. Teknologi Jaya', tanggal: '2026-10-04', guru: 'Ibu Ratna Sari, S.Kom', agenda: 'Monitoring Serentak Tahap 1', status: 'Belum', catatan: '' },
-            { id: 2, dudi: 'CV. Maju Mundur', tanggal: '2026-10-04', guru: 'Ibu Ratna Sari, S.Kom', agenda: 'Monitoring Serentak Tahap 1', status: 'Belum', catatan: '' },
-            { id: 3, dudi: 'Telkom Indonesia', tanggal: '2026-10-04', guru: 'Bpk. Ahmad Dahlan, S.T', agenda: 'Monitoring Serentak Tahap 1', status: 'Belum', catatan: '' }
+            { id: 1, dudi: 'PT. Teknologi Jaya', tanggal: '2026-10-04', guru: 'Brian Age Saputro, S.Kom.', agenda: 'Monitoring Serentak Tahap 1', status: 'Belum', catatan: '' },
+            { id: 2, dudi: 'CV. Maju Mundur', tanggal: '2026-10-04', guru: 'Brian Age Saputro, S.Kom.', agenda: 'Monitoring Serentak Tahap 1', status: 'Belum', catatan: '' },
+            { id: 3, dudi: 'Telkom Indonesia', tanggal: '2026-10-04', guru: 'Dwi Widianto, A.Md. T.', agenda: 'Monitoring Serentak Tahap 1', status: 'Belum', catatan: '' }
         ];
 
-        let globalDbDokumentasi = [{ id: 1, type: 'Monitoring', title: 'Kunjungan Awal Telkom', uploader: 'Bpk. Ahmad Dahlan, S.T', tanggal: '2026-09-15', catatan: 'Penerimaan siswa berjalan lancar.', img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&auto=format&fit=crop&q=60' }];
+        let globalDbDokumentasi = [{ id: 1, type: 'Monitoring', title: 'Kunjungan Awal Telkom', uploader: 'Dwi Widianto, A.Md. T.', tanggal: '2026-09-15', catatan: 'Penerimaan siswa berjalan lancar.', img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&auto=format&fit=crop&q=60' }];
 
         const laporanStructure = [
             { id: 'pengantar', title: 'Kata Pengantar', icon: 'message-circle', fields: [ {id: 'kata_pengantar', label: 'Teks Kata Pengantar', type: 'textarea'} ] },
@@ -1351,7 +1351,7 @@
                 printText('PEMERINTAH DAERAH DAERAH ISTIMEWA YOGYAKARTA', center, pageHeight - 45, { align: 'center' });
                 printText('DINAS PENDIDIKAN PEMUDA DAN OLAHRAGA', center, pageHeight - 39, { align: 'center' });
                 doc.setFontSize(16);
-                printText('SMK NEGERI 1 SEMANU', center, pageHeight - 31, { align: 'center' });
+                printText('SMK Ma'arif Semanu', center, pageHeight - 31, { align: 'center' });
                 doc.setFont('times', 'normal'); doc.setFontSize(11);
                 printText('Program Keahlian: ' + jurusan, center, pageHeight - 24, { align: 'center' });
                 doc.setFont('times', 'bold'); doc.setFontSize(12);
@@ -1379,8 +1379,8 @@
 
                 printText('Mengetahui,', center, currentY, { align: 'center' }); currentY += 6;
                 doc.setFont('times', 'bold');
-                printText('Kepala SMK Negeri 1 Semanu', center, currentY, { align: 'center' }); currentY += 30;
-                printText('Bpk. Budi Utama, M.Pd', center, currentY, { align: 'center' }); currentY += 6;
+                printText('Kepala SMK Ma'arif Semanu', center, currentY, { align: 'center' }); currentY += 30;
+                printText('Yani Rismawati, S.Pd. Si.', center, currentY, { align: 'center' }); currentY += 6;
                 doc.setFont('times', 'normal');
                 printText('NIP. 19800101 200501 1 001', center, currentY, { align: 'center' });
 
